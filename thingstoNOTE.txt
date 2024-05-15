@@ -1,0 +1,38 @@
+index.js
+welcome channel - 1 string
+reaction add - 2 strings
+roles obj - {}
+dm bot - 2 strings
+remove role guildid //what is this even
+
+add-role.js
+modroleid
+
+remove-role.js
+modroleid
+
+move.js
+modroleid
+
+remove-vc.js
+modroleid
+
+roleadd, automod, results 
+
+
+
+
+emoji id
+-sheesh
+<:sheesh:1167310481871089675>
+-yes
+<:yes:1168081212175286342>
+-key
+<:key:1168103473078865970>
+
+<:seer1:1171826486701981831> blue w board bg
+<:seer3:1171826500467699832> green
+<:seer4:1171826495094784000> blue
+<:seer5:1171826490468466791> orange
+<:seer6:1171826483384303626> owl blackwhite
+
