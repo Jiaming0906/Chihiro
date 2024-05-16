@@ -321,7 +321,7 @@ client.on('ready', async (c) => {
 
     //activitytype set 
     client.user.setActivity({
-        name: "for you",
+        name: "bambi <3",
         type: ActivityType.Watching,
     });
     console.log("-".padEnd(50, "-"));

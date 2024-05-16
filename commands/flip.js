@@ -6,14 +6,33 @@ const { SlashCommandBuilder, EmbedBuilder, inlineCode } = require('discord.js');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('flip')
-        .setDescription('Flips a coin'),
+        .setDescription('Flips a coin')
+        .addRoleOption(option => option.setName("team-1")
+            .setDescription("Team 1")
+            .setRequired(true))
+        .addRoleOption(option => option.setName("team-2")
+            .setDescription("Team 2")
+            .setRequired(true)),
     async execute(interaction) {
+
+        //get team 1 and team 2
+        const { options } = interaction;
+        const team1role = options.getRole("team-1");
+        const team2role = options.getRole("team-2");
+
+        if (team1role.id === team2role.id) {
+            await interaction.reply({ content: `Please choose two different teams!`, ephemeral: true });
+            return;
+        };
+
         //give heads and tails to teams 1 and 2
         let team1 = "Heads";
         let team2 = "Tails";
         const test1 = Math.floor(Math.random() * 2);
 
-        if (test1) {
+        //console.log(test1);
+
+        if (test1 < 1) {
             team1 = "Tails";
             team2 = "Heads";
         };
@@ -31,15 +50,15 @@ module.exports = {
         };
 
         //wins
-        let winTeam = "**Team 1** wins coinflip.\n∴ Team 1: Pick Map\n∴ Team 2: Ban Map, Pick Sides";
+        let winTeam = `🪙 ${team1role} wins coinflip 🪙`;
         if (coinFlip === team2) {
-            winTeam = "**Team 2** wins coinflip.\n∴ Team 2: Pick Map\n∴ Team 1: Ban Map, Pick Sides";
+            winTeam = `🪙 ${team2role} wins coinflip 🪙`;
         };
 
         //return team and coin flip results
-        const results = `Team 1: ${team1}\nTeam 2: ${team2}\n\nCoin Flip: **${coinFlip}** (n = ${n.toFixed(3)})¹\n¹*n = [0, 1); Heads when 0 ≤ n < 0.5; Tails when 0.5 ≤ n < 1*\n\n${winTeam}`
+        const results = `${team1role}: ${team1}\n${team2role}: ${team2}\n\nn = ${n.toFixed(3)}¹\n¹*n = [0, 1)\nn is a randomly generated number larger or equals to 0 but smaller than 1\nHeads when 0 ≤ n < 0.5; Tails when 0.5 ≤ n < 1*\n\n🪙 Coin Flip: **${coinFlip} 🪙**\n${winTeam}`
 
-        await interaction.reply({ content: `${results}` });
+        await interaction.reply({ allowedMentions: { roles : [team1role.id, team2role.id] }, content: `${results}` });
         return;
     }
 };
