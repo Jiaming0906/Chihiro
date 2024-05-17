@@ -60,19 +60,6 @@ module.exports = {
     async execute(interaction) {
         //
         try {
-            //check for permissions
-            //check if user has access to this command
-            const hostId = "905409553636675604";
-            const adminId = "905409748369801227";
-            const modId = "905410009620434954";
-            const prodId = "906901734247526421";
-            const discId = "971619659973533706";
-    
-            // if (!interaction.member.roles.cache.has(hostId) && !interaction.member.roles.cache.has(adminId) && !interaction.member.roles.cache.has(modId) && !interaction.member.roles.cache.has(prodId) && !interaction.member.roles.cache.has(discId)){
-            //     await interaction.reply({ content: `You don't have permission to use the command.`, ephemeral: true });
-            //     return;
-            // };
-
             //all variables
             const { options } = interaction;
             const map = options.getString("map");

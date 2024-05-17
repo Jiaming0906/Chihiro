@@ -92,7 +92,24 @@ client.on(Events.InteractionCreate, async interaction => {
 //DM bot
 
 //bot message channel
-const botMessageChannel = "1166055644906926121";
+const BotChannels = require("./models/bot-channels.js");
+
+async function getId() {
+    const test = await BotChannels.findByPk("SageMessageChannel");
+
+    if (!test) {
+
+        await BotChannels.create({ name: "SageMessageChannel" });
+    };
+
+    const botMessageChannel = await BotChannels.findByPk("SageMessageChannel");
+    return botMessageChannel.channelId;
+  };
+
+// (async () => {
+//     console.log(await getId())
+//   })()
+
 const botUserId = "<@1164417246643367968>";
 
 //recieve dm message reports
@@ -118,7 +135,8 @@ client.on("messageCreate", async (message) => {
         //     return;
         // };
 
-        await client.channels.cache.get(botMessageChannel).send({ embeds: [embed] });
+        const id = await getId();
+        await client.channels.cache.get(id).send({ embeds: [embed] });
         return;
 
     } catch (err) {
@@ -169,7 +187,9 @@ client.on("messageCreate", async (message) => {
             // };
     
             //var messageLink = "https://discord.com/channels/" + String(message.guildId) + "/" + String(message.channelId) + "/" + String(message.id);
-            await client.channels.cache.get(botMessageChannel).send({ embeds: [embed] });
+
+            const id = await getId();
+            await client.channels.cache.get(id).send({ embeds: [embed] });
             return;
         };
 

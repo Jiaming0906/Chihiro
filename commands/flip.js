@@ -21,7 +21,7 @@ module.exports = {
         const team2role = options.getRole("team-2");
 
         if (team1role.id === team2role.id) {
-            await interaction.reply({ content: `Please choose two different teams!`, ephemeral: true });
+            await interaction.reply({ content: `no baby, you have to choose two different teams.`, ephemeral: true });
             return;
         };
 
@@ -48,6 +48,9 @@ module.exports = {
         if (n < 0.5){
             coinFlip = "Heads";
         };
+
+        //send log message
+        console.log(`${interaction.user.username} used flip`);
 
         //wins
         let winTeam = `🪙 ${team1role} wins coinflip 🪙`;
