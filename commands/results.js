@@ -70,6 +70,11 @@ module.exports = {
             const survTag = options.getRole("surv-team");
             const survPts = options.getInteger("surv-results");
 
+            if (hunterTag.id === survTag.id) {
+                await interaction.reply({ content: `You have chosen the same role for the hunter and surv team.`, ephemeral: true });
+                return;
+            };
+
             //colour of embed 
             //1,2,3,extra4,4,5,extra6,6,7,extra8
 

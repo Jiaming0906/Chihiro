@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder, inlineCode } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, inlineCode, PermissionFlagsBits } = require('discord.js');
 //const { bold, italic, strikethrough, underscore, spoiler, quote, blockQuote, inlineCode, codeBlock, time } = require('discord.js');
 
 const BotChannels = require("../models/bot-channels.js");
@@ -9,7 +9,8 @@ module.exports = {
         .setDescription('Choose which channel for bot to send message to')
         .addStringOption(option => option.setName("id")
             .setDescription("Channel ID")
-            .setRequired(true)),
+            .setRequired(true))
+        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
     async execute(interaction) {
 
         const { options } = interaction;
@@ -28,7 +29,7 @@ module.exports = {
 
                 console.log(`${interaction.user.username} set bot channel to channel ${channelId}`);
 
-                await interaction.reply({ content: `I have changed the message logs channel to Channel ${channelId}.` });
+                await interaction.reply({ content: `I have changed the message logs channel to Channel ${channelId}. If unauthorised, please inform moderators ASAP.` });
                 return;
             };
 

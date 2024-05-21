@@ -341,8 +341,9 @@ client.on('ready', async (c) => {
 
     //activitytype set 
     client.user.setActivity({
-        name: "bambi <3",
-        type: ActivityType.Watching,
+        name: "Identity V", 
+        type: ActivityType.Streaming, 
+        url: "https://www.youtube.com/live/sCpvoEF4o6o?si=EbIaQwvidEHLAnHP" 
     });
     console.log("-".padEnd(50, "-"));
 });
