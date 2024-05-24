@@ -3,7 +3,7 @@ const { SlashCommandBuilder, inlineCode, PermissionFlagsBits } = require("discor
 module.exports = {
     data: new SlashCommandBuilder()
         .setName("add-role")
-        .setDescription("Add a role for the member")
+        .setDescription("Adds a role for the member")
         .addUserOption(option => option.setName("member")
             .setDescription("Choose the member")
             .setRequired(true))
@@ -23,12 +23,12 @@ module.exports = {
             memberGet = await interaction.guild.members.cache.get(targetUser.id).roles.cache.has(targetRole.id)
             
             if (memberGet) {
-                await interaction.reply({ content: `<@${targetUser.id}> has the Role "${targetRole.name}" already!`, ephemeral: true });
+                await interaction.reply({ content: `<@${targetUser.id}> has the Role ${targetRole} already!`, ephemeral: true });
                 return;
             }
 
             await interaction.guild.members.cache.get(targetUser.id).roles.add(targetRole);
-            await interaction.reply(`Role "${targetRole.name}" has been added for <@${targetUser.id}>.`)
+            await interaction.reply(`Role ${targetRole} has been added for <@${targetUser.id}>.`)
             return;
 
         } catch (err) {
