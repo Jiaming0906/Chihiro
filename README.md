@@ -2,7 +2,7 @@
 
 First create *.env* file in your folder in the format:
 
-DISCORD_TOKEN=123456789
+DISCORD_TOKEN=123456789  
 CLIENT_ID=123456789
 
 Please change "123456789" accordingly.
