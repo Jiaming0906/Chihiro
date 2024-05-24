@@ -10,11 +10,11 @@ module.exports = {
         const n = Math.random();
 
         if (n < 1/3){
-            return interaction.reply("Rock✊");
+            return interaction.reply(`${interaction.user} chooses *Rock*✊`);
         } else if (n < 2/3){
-            return interaction.reply("Paper🖐️");
+            return interaction.reply(`${interaction.user} chooses *Paper*🖐️`);
         } else {
-            return interaction.reply("Scissors✌️");
+            return interaction.reply(`${interaction.user} chooses *Scissors*✌️`);
         }
     }
 };

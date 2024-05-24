@@ -82,10 +82,6 @@ client.on(Events.InteractionCreate, async interaction => {
         console.log("err message below".padEnd(50, "-"));
         console.log(err);
         console.log("-".padEnd(50, "-"));
-
-        await interaction.reply({
-            content: "Error. Please use the command in the server."
-        })
     }
 });
 

@@ -6,7 +6,7 @@ const BotChannels = require("../models/bot-channels.js");
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('set-message-channel-id')
-        .setDescription('Choose which channel for bot to send message to')
+        .setDescription('Sets the channel for bot to send message to')
         .addStringOption(option => option.setName("id")
             .setDescription("Channel ID")
             .setRequired(true))
@@ -38,10 +38,12 @@ module.exports = {
 
             await BotChannels.create({ name: "SageMessageChannel", id: channelId });
             await interaction.reply( { content: `I have set the message logs channel to Channel ${channelId}.` });
-
+            return;
 
         } catch (err) {
             console.log(err);
+            await interaction.reply({ content: `Error. Please let Sneaky know.`, ephemeral: true });
+            return;
         };
     }
 };

@@ -2,10 +2,10 @@ const { SlashCommandBuilder, EmbedBuilder, ChannelType, inlineCode, PermissionFl
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName("animated-avatar")
-        .setDescription("Makes an Animated Avatar")
+        .setName("set-avatar")
+        .setDescription("Sets my avatar")
         .addAttachmentOption(option => option.setName("avatar")
-            .setDescription("The avatar to be animated")
+            .setDescription("jpeg/png/gif format")
             .setRequired(true))
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
 
@@ -27,12 +27,14 @@ module.exports = {
             //use above with
             //await sendMessage(`content`);
 
-            if (avatar.contentType !== "image/gif") return await sendMessage(`Please use a GIF format ^_^~!`);
+            if (avatar.contentType !== "image/gif" && avatar.contentType != "image/jpeg" && avatar.contentType !== "image/png") return await interaction.reply(`Please use a jpeg/png/gif format ^_^~!`);
+
+            if (avatar.size > 500000) return await interaction.reply(`Please keep file to within .5Mb, else I may crash 😭.`);
 
             await interaction.client.user.setAvatar(avatar.url);
             console.log("changed the avatar")
             await interaction.reply({ content: `I have changed my avatar~`, ephemeral: true });
-            
+            return;
 
         } catch (err) {
             console.log(err);
