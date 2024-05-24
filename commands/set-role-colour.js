@@ -37,14 +37,14 @@ module.exports = {
             // console.log(!/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(hexcode));
 
             //check if given hexcode is valid
-            if (!/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(hexcode)){
-                await interaction.reply({ content: `Please provide a valid hexcode! Example: #000000`, ephemeral: true });
+            if (!/^#?([A-Fa-f0-9]{6})$/.test(hexcode)){
+                await interaction.reply({ content: `Please provide a valid hexcode! Example: #000000, with or without # symbol is all fine!`, ephemeral: true });
                 return;
             };
 
             //if not, change colour
             await rolegiven.setColor(hexcode);
-            await interaction.reply( { content: `yes` });
+            await interaction.reply( { content: `I have changed the colour of ${rolegiven} to hexcode: ${hexcode} ( ͡~ ͜ʖ ͡°)` });
             return;
 
         } catch (err) {
