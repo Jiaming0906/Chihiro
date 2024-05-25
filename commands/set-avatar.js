@@ -31,9 +31,11 @@ module.exports = {
 
             if (avatar.size > 500000) return await interaction.reply(`Please keep file to within .5Mb, else I may crash 😭.`);
 
+            await interaction.deferReply();
+
             await interaction.client.user.setAvatar(avatar.url);
             console.log("changed the avatar")
-            await interaction.reply({ content: `I have changed my avatar~`, ephemeral: true });
+            await interaction.editReply({ content: `I have changed my avatar~`, ephemeral: true });
             return;
 
         } catch (err) {

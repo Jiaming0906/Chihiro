@@ -6,8 +6,7 @@ module.exports = {
         .setDescription("Show roles of a member")
         .addUserOption(option => option.setName("member")
             .setDescription("Choose member")
-            .setRequired(true))
-        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
+            .setRequired(true)),
 
     async execute(interaction) {
 
@@ -45,6 +44,8 @@ module.exports = {
             .setColor("Random")
             .setTitle(`Roles for ${userRole.username}`)
             .setDescription(`${rolesString}`)
+
+            console.log(`${interaction.user.username} used show-roles`);
 
             await interaction.reply({ embeds: [embed] });
             return;

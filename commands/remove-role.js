@@ -9,8 +9,7 @@ module.exports = {
             .setRequired(true))
         .addRoleOption(option => option.setName("role")
             .setDescription("Choose the role to remove")
-            .setRequired(true))
-        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
+            .setRequired(true)),
     
     async execute(interaction) {
 

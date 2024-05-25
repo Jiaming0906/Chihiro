@@ -43,13 +43,21 @@ module.exports = {
             };
 
             //if not, change colour
+            const oldcolour = rolegiven.hexColor;
+            var newcolour = hexcode;
+            if (hexcode.slice(0,1) !== "#") {
+                newcolour = "#".concat(hexcode);
+            };
+
+            console.log(`${interaction.user.username} used set-role-colour`);
+            
             await rolegiven.setColor(hexcode);
-            await interaction.reply( { content: `I have changed the colour of ${rolegiven} to hexcode: ${hexcode} ( ͡~ ͜ʖ ͡°)` });
+            await interaction.reply( { content: `I have changed the colour of ${rolegiven} from hexcode: ${oldcolour} to hexcode: ${newcolour}.\n*If this change was by accident, please change the role back to its original colour. Thank you!*` });
             return;
 
         } catch (err) {
             console.log(err);
-            await interaction.reply({ content: `Error. Please let Sneaky know.`, ephemeral: true });
+            await interaction.reply({ content: `This is an error running this command. Please let Sneaky know. It's likely that you are trying to change the colour of a role of a higher rank.`, ephemeral: true });
             return;
         };
     }

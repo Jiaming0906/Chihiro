@@ -10,8 +10,7 @@ module.exports = {
         .addChannelOption(option => option.setName("channel")
             .setDescription("The channel to move member into")
             .setRequired(true)
-            .addChannelTypes(ChannelType.GuildVoice))
-        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
+            .addChannelTypes(ChannelType.GuildVoice)),
 
     async execute(interaction) {
         //check if user has permission to move

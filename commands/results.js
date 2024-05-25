@@ -54,8 +54,7 @@ module.exports = {
             .setDescription("Points of Surv Team")
             .setMinValue(0)
             .setMaxValue(5)
-            .setRequired(true))
-        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
+            .setRequired(true)),
 
     async execute(interaction) {
         //
@@ -114,6 +113,8 @@ module.exports = {
             .addFields(
                 { name: `Instructions for Team Coach/ Team Captain:`, value: fieldEmbed, inline: false }
             )
+
+            console.log(`${interaction.user.username} used results`);
 
             await interaction.reply({ allowedMentions: { roles : [hunterTag.id, survTag.id] }, content: `${hunterTag}${survTag} Please check the results and follow instructions below.`, embeds: [embed] });
             return;

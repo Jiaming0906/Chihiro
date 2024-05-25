@@ -8,22 +8,9 @@ module.exports = {
             .setDescription("The member to remove")
             .setRequired(true))
         .addStringOption(option => option.setName("reason")
-            .setDescription("If you would like to state a reason"))
-        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
+            .setDescription("If you would like to state a reason")),
 
     async execute(interaction) {
-        //check if user has permission to remove
-        const hostId = "905409553636675604";
-        const adminId = "905409748369801227";
-        const modId = "905410009620434954";
-        const prodId = "906901734247526421";
-        const discId = "971619659973533706";
-
-
-        // if (!interaction.member.roles.cache.has(hostId) && !interaction.member.roles.cache.has(adminId) && !interaction.member.roles.cache.has(modId) && !interaction.member.roles.cache.has(prodId) && !interaction.member.roles.cache.has(discId)){
-        //     await interaction.reply(`(ಠ﹏ಠ) You do not have permission to use ${inlineCode("/remove-vc")}, please look for _@Moderators_ if you need help.`)
-        //     return;
-        // };
 
         try {
 

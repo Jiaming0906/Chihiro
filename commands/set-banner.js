@@ -31,9 +31,11 @@ module.exports = {
 
             if (banner.size > 500000) return await interaction.reply(`Please keep file to within 0.5Mb, else I may crash 😭.`);
 
+            await interaction.deferReply();
+
             await interaction.client.user.setBanner(banner.url);
             console.log("changed the banner")
-            await interaction.reply({ content: `I have changed my banner!`, ephemeral: true });
+            await interaction.editReply({ content: `I have changed my banner!`, ephemeral: true });
             
 
         } catch (err) {

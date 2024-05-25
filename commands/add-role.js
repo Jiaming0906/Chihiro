@@ -1,4 +1,5 @@
 const { SlashCommandBuilder, inlineCode, PermissionFlagsBits } = require("discord.js");
+//.setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -9,8 +10,7 @@ module.exports = {
             .setRequired(true))
         .addRoleOption(option => option.setName("role")
             .setDescription("Choose the role to add")
-            .setRequired(true))
-        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
+            .setRequired(true)),
     
     async execute(interaction) {
         
@@ -26,6 +26,8 @@ module.exports = {
                 await interaction.reply({ content: `<@${targetUser.id}> has the Role ${targetRole} already!`, ephemeral: true });
                 return;
             }
+
+            console.log(`${interaction.user.username} used add-role`);
 
             await interaction.guild.members.cache.get(targetUser.id).roles.add(targetRole);
             await interaction.reply(`Role ${targetRole} has been added for <@${targetUser.id}>.`)

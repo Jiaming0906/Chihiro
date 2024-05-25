@@ -37,7 +37,10 @@ module.exports = {
             )
 
             //await interaction.reply({ embeds: [embed], ephemeral: true });
-            await interaction.reply({ embeds: [embed], ephemeral:true });
+            // await interaction.reply({ embeds: [embed], ephemeral:true });
+            // return;
+
+            await interaction.reply({ content: `Hey bby, just type "/" and check out the commands I offer ✿( ͡° ͜ʖ ͡°)✿ mua`, ephemeral: true });
             return;
 
         } catch (err) {
