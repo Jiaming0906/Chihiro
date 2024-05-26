@@ -168,7 +168,7 @@ client.on("messageCreate", async (message) => {
         //
         if(message.content.includes(botUserId)){
             message.react("<:yes:1168081212175286342>");
-            message.reply("Message has been sent to the Moderators. If urgent, please ping Moderators directly.");
+            message.reply("I've got you!");
 
             //create an embed 
             const embed = new EmbedBuilder()
@@ -205,128 +205,128 @@ const reactionLogChannelId = "1164883944907489290";
 //roles to add
 const rolesObj = {"🥶": "1164885298715578398", "😵‍💫": "1164885373164470303"};
 
-client.on(Events.MessageReactionAdd, async (reaction, user) => {
+// client.on(Events.MessageReactionAdd, async (reaction, user) => {
 
-    if (reaction.message.id === reactionMessageId) {
-        //only triggers for reactions on reactionMessage only
+//     if (reaction.message.id === reactionMessageId) {
+//         //only triggers for reactions on reactionMessage only
 
-        if (reaction.message.partial) {
-            try {
-                await reaction.message.fetch();
-            } catch (err) {
-                console.log("index.js, add roles, message partial");
-                console.log("error message below".padEnd(50, "-"));
-                console.log(err);
-                console.log("-".padEnd(50, "-"));
-            };
-        };
+//         if (reaction.message.partial) {
+//             try {
+//                 await reaction.message.fetch();
+//             } catch (err) {
+//                 console.log("index.js, add roles, message partial");
+//                 console.log("error message below".padEnd(50, "-"));
+//                 console.log(err);
+//                 console.log("-".padEnd(50, "-"));
+//             };
+//         };
 
-        // const testonly = [];
-        // reaction.message.reactions.cache.forEach(r => testonly.push(r))
-        // console.log(testonly);
+//         // const testonly = [];
+//         // reaction.message.reactions.cache.forEach(r => testonly.push(r))
+//         // console.log(testonly);
         
-        if (rolesObj[reaction._emoji.name]) {
-            try {
-                let roleToAdd = await reaction.message.guild.roles.cache.get(rolesObj[reaction._emoji.name]);
-                await reaction.message.guild.members.cache.get(user.id).roles.add(roleToAdd);
+//         if (rolesObj[reaction._emoji.name]) {
+//             try {
+//                 let roleToAdd = await reaction.message.guild.roles.cache.get(rolesObj[reaction._emoji.name]);
+//                 await reaction.message.guild.members.cache.get(user.id).roles.add(roleToAdd);
 
-                //if custom emoji 
-                if (reaction._emoji.id){
-                    await client.channels.cache.get(reactionLogChannelId).send(`${user.username} reacted with <:${reaction._emoji.name}:${reaction._emoji.id}>, role "${roleToAdd.name}" has been given.`);
-                    return;
-                };
-                await client.channels.cache.get(reactionLogChannelId).send(`${user.username} reacted with ${reaction._emoji.name}, role "${roleToAdd.name}" has been given.`);
-                return;
+//                 //if custom emoji 
+//                 if (reaction._emoji.id){
+//                     await client.channels.cache.get(reactionLogChannelId).send(`${user.username} reacted with <:${reaction._emoji.name}:${reaction._emoji.id}>, role "${roleToAdd.name}" has been given.`);
+//                     return;
+//                 };
+//                 await client.channels.cache.get(reactionLogChannelId).send(`${user.username} reacted with ${reaction._emoji.name}, role "${roleToAdd.name}" has been given.`);
+//                 return;
 
-            } catch (err) {
-                // console.log(`${user.username} faced an error trying to add role with reaction`)
-                // console.log("-".padEnd(39, "-"));
-                console.log(err);
-                console.log("-".padEnd(50, "-"));
+//             } catch (err) {
+//                 // console.log(`${user.username} faced an error trying to add role with reaction`)
+//                 // console.log("-".padEnd(39, "-"));
+//                 console.log(err);
+//                 console.log("-".padEnd(50, "-"));
 
-                try {
-                    //send error message to logs channel
-                    await client.channels.cache.get(reactionLogChannelId).send(`🔴 ${user.username} needs help with adding role.`);
+//                 try {
+//                     //send error message to logs channel
+//                     await client.channels.cache.get(reactionLogChannelId).send(`🔴 ${user.username} needs help with adding role.`);
 
-                } catch (err) {
-                    console.log("error sending error to add role message to logs channel");
-                    console.log("error message below".padEnd(50, "-"));
-                    console.log(err);
-                    console.log("-".padEnd(50, "-"));
-                }
-            }
-        }
-    };
-});
+//                 } catch (err) {
+//                     console.log("error sending error to add role message to logs channel");
+//                     console.log("error message below".padEnd(50, "-"));
+//                     console.log(err);
+//                     console.log("-".padEnd(50, "-"));
+//                 }
+//             }
+//         }
+//     };
+// });
 
-// reaction remove 
+// // reaction remove 
 
-client.on(Events.MessageReactionRemove, async (reaction, user) => {
+// client.on(Events.MessageReactionRemove, async (reaction, user) => {
 
-    if (reaction.message.id === reactionMessageId) {
-        //only triggers for reactions on reactionMessage only
+//     if (reaction.message.id === reactionMessageId) {
+//         //only triggers for reactions on reactionMessage only
 
-        if (reaction.message.partial) {
-            try {
-                await reaction.message.fetch();
-            } catch (err) {
-                console.log("index.js, reaction remove, message partial");
-                console.log("error message below".padEnd(50, "-"));
-                console.log(err);
-                console.log("-".padEnd(50, "-"));
-            };
-        };
+//         if (reaction.message.partial) {
+//             try {
+//                 await reaction.message.fetch();
+//             } catch (err) {
+//                 console.log("index.js, reaction remove, message partial");
+//                 console.log("error message below".padEnd(50, "-"));
+//                 console.log(err);
+//                 console.log("-".padEnd(50, "-"));
+//             };
+//         };
 
-        if (user.partial) {
-            try {
-                await reaction.message.guild.members.fetch(user.id);
-                // await client.channels.cache.get(reactionLogChannelId).send(`🔴 ${userCache.user.username} needs help to remove "${reaction._emoji.name}" role.`);
-                // return;
+//         if (user.partial) {
+//             try {
+//                 await reaction.message.guild.members.fetch(user.id);
+//                 // await client.channels.cache.get(reactionLogChannelId).send(`🔴 ${userCache.user.username} needs help to remove "${reaction._emoji.name}" role.`);
+//                 // return;
                 
-            } catch (err) {
-                console.log("index.js, reaction remove, user partial");
-                console.log("error message below".padEnd(50, "-"));
-                console.log(err);
-                console.log("-".padEnd(50, "-"));
-            };
-        };
+//             } catch (err) {
+//                 console.log("index.js, reaction remove, user partial");
+//                 console.log("error message below".padEnd(50, "-"));
+//                 console.log(err);
+//                 console.log("-".padEnd(50, "-"));
+//             };
+//         };
         
-        if (rolesObj[reaction._emoji.name]) {
-            try {
-                await reaction.message.guild.members.fetch(user.id);
-                let roleToRemove = await reaction.message.guild.roles.cache.get(rolesObj[reaction._emoji.name]);
-                await reaction.message.guild.members.cache.get(user.id).roles.remove(roleToRemove);
+//         if (rolesObj[reaction._emoji.name]) {
+//             try {
+//                 await reaction.message.guild.members.fetch(user.id);
+//                 let roleToRemove = await reaction.message.guild.roles.cache.get(rolesObj[reaction._emoji.name]);
+//                 await reaction.message.guild.members.cache.get(user.id).roles.remove(roleToRemove);
 
-                //if custom emoji 
-                if (reaction._emoji.id){
-                    await client.channels.cache.get(reactionLogChannelId).send(`${user.username} has removed reaction <:${reaction._emoji.name}:${reaction._emoji.id}>, role "${roleToRemove.name}" has been removed.`);
-                    return;
-                };
-                await client.channels.cache.get(reactionLogChannelId).send(`${user.username} has removed reaction ${reaction._emoji.name}, role "${roleToRemove.name}" has been removed.`);
-                return;
+//                 //if custom emoji 
+//                 if (reaction._emoji.id){
+//                     await client.channels.cache.get(reactionLogChannelId).send(`${user.username} has removed reaction <:${reaction._emoji.name}:${reaction._emoji.id}>, role "${roleToRemove.name}" has been removed.`);
+//                     return;
+//                 };
+//                 await client.channels.cache.get(reactionLogChannelId).send(`${user.username} has removed reaction ${reaction._emoji.name}, role "${roleToRemove.name}" has been removed.`);
+//                 return;
 
-            } catch (err) {
-                //console.log(`${user.username} faced an error in role removing with reaction removing`);
-                console.log(err);
-                console.log("-".padEnd(50, "-"));
+//             } catch (err) {
+//                 //console.log(`${user.username} faced an error in role removing with reaction removing`);
+//                 console.log(err);
+//                 console.log("-".padEnd(50, "-"));
 
-                //console.log(err);
-                //send error message to channel 
+//                 //console.log(err);
+//                 //send error message to channel 
                 
-                try {
-                    //send role error message to logs channel
-                    await client.channels.cache.get(reactionLogChannelId).send(`🔴 ${user.username} needs help to remove "${reaction._emoji.name}" role.`);
+//                 try {
+//                     //send role error message to logs channel
+//                     await client.channels.cache.get(reactionLogChannelId).send(`🔴 ${user.username} needs help to remove "${reaction._emoji.name}" role.`);
 
-                } catch (err) {
-                    console.log("index.js, reaction remove");
-                    console.log("error message below".padEnd(50, "-"));
-                    console.log(err);
-                    console.log("-".padEnd(50, "-"));
-                }
-            }
-        }
-    };
-});
+//                 } catch (err) {
+//                     console.log("index.js, reaction remove");
+//                     console.log("error message below".padEnd(50, "-"));
+//                     console.log(err);
+//                     console.log("-".padEnd(50, "-"));
+//                 }
+//             }
+//         }
+//     };
+// });
 
 // log bot onto discord
 
