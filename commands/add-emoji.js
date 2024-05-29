@@ -19,16 +19,21 @@ module.exports = {
             const emojigiven = options.getAttachment("emoji");
             const name = options.getString("name");
 
+            console.log(emojigiven.contentType);
+
             if (emojigiven.contentType !== "image/gif" && emojigiven.contentType != "image/jpeg" && emojigiven.contentType !== "image/png") return await interaction.reply(`Please use a jpeg/png/gif format ^_^~!`);
 
             if (emojigiven.size > 256000) return await interaction.reply(`Please keep file to within .5Mb.`);
 
             // if (interaction.guild.emojis.cache.size > 50 ) return;
 
-            await interaction.guild.emojis.create({ attachment: emojigiven.url, name: name });
-            console.log(`${interaction.user.username} added an emoji`)
-            await interaction.reply({ content: `I have added the emoji!`, ephemeral: true });
+            await interaction.reply({ content: "Sorry, command not ready.", ephemeral: true });
             return;
+
+            // await interaction.guild.emojis.create({ attachment: emojigiven.url, name: name });
+            // console.log(`${interaction.user.username} added an emoji`)
+            // await interaction.reply({ content: `I have added the emoji!`, ephemeral: true });
+            // return;
 
         } catch (err) {
             console.log(err);

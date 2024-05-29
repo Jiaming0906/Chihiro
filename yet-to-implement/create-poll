@@ -1,0 +1,37 @@
+const { SlashCommandBuilder, EmbedBuilder, ChannelType, inlineCode, PermissionFlagsBits } = require("discord.js");
+
+module.exports = {
+    data: new SlashCommandBuilder()
+        .setName("create-poll")
+        .setDescription("Creates a new poll"),
+
+    async execute(interaction) {
+        
+        try {
+
+            const { options } = interaction;
+            
+            //channel to send poll to 
+            interaction.channel.send({
+                poll: {
+                    question: {
+                        text: "question"
+                    },
+                    answers: [
+                        {text: "answer1", emoji: "😂"},
+                        {text: "answer2", emoji: "😭"},
+                    ],
+                    allowMultiselect: true,
+                    duration: 2,
+                }
+            })
+            return;
+
+        } catch (err) {
+            console.log(err);
+            console.log("-".padEnd(39, "-"));
+            await interaction.reply({ content: `Error. Please let Sneaky know about this.`, ephemeral: true });
+            return;
+        };
+    }
+};

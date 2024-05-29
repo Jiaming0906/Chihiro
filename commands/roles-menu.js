@@ -19,7 +19,7 @@ module.exports = {
 
             const actionRow = new ActionRowBuilder().setComponents(roleMenu);
 
-            const reply = await interaction.reply({ content: `Please choose the roles you want to add/remove. Please type to search if you cannot find the role you are looking for on the list.\n\nNote:\n1. Selecting a role you own will remove it from you. Selecting a role you do *not* own will add it to you.\n2. I am unable to add/remove high ranked roles (e.g. admin roles) and bot roles.\n3. If you get a "Interaction failed" message, run the /role-menu command again.`, components: [ actionRow ]});
+            const reply = await interaction.reply({ content: `**Add/Remove Roles**\nPlease choose the roles you want to add/remove. Please *type to search* if you cannot find the role you are looking for on the list.\n\nTake note:\n1. Selecting a role you own will remove it from you. Selecting a role you do *not* own will add it to you.\n2. There is no limit to how many times you can use this selection menu.\n3. I am unable to add/remove high ranked roles (e.g. admin roles/privileged roles) and bot roles. Selecting such roles on the menu will give a "Unable to add" message.\n4. For Admins, if users get a "Interaction failed" message, run the ${inlineCode("/role-menu")} command again.`, components: [ actionRow ]});
 
             const collector = reply.createMessageComponentCollector({
                 componentType: ComponentType.RoleSelect,
@@ -60,7 +60,7 @@ module.exports = {
                             replyString = replyString.concat(`I am unable to remove ${role}\n`);
                         } else {
                             memberRoles.remove(role);
-                            replyString = replyString.concat(`I have removed ${role}\n`);
+                            replyString = replyString.concat(`${role} has been removed from you.\n`);
                         };
 
                     } else {
@@ -70,7 +70,7 @@ module.exports = {
                             replyString = replyString.concat(`I am unable to add ${role}\n`);
                         } else {
                             memberRoles.add(role);
-                            replyString = replyString.concat(`I have added ${role}\n`);
+                            replyString = replyString.concat(`${role} has been added for you. \n`);
                         };
                     };
                 };
