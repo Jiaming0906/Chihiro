@@ -39,16 +39,16 @@ module.exports = {
                 { name: "Second Half", value: "Second Half" }
             )
             .setRequired(true))
-        .addUserOption(option => option.setName("hunter-team")
-            .setDescription("Tag of a player from Hunter Team")
+        .addRoleOption(option => option.setName("hunter-team")
+            .setDescription("Tag of Hunter Team")
             .setRequired(true))
         .addIntegerOption(option => option.setName("hunter-results")
             .setDescription("Points by Hunter")
             .setMinValue(0)
             .setMaxValue(5)
             .setRequired(true))
-        .addUserOption(option => option.setName("surv-team")
-            .setDescription("Tag of a player from Surv Team")
+        .addRoleOption(option => option.setName("surv-team")
+            .setDescription("Tag of Surv Team")
             .setRequired(true))
         .addIntegerOption(option => option.setName("surv-results")
             .setDescription("Points of Surv Team")
@@ -64,13 +64,13 @@ module.exports = {
             const map = options.getString("map");
             const round = options.getString("round");
             const half = options.getString("half");
-            const hunterTag = options.getUser("hunter-team");
+            const hunterTag = options.getRole("hunter-team");
             const hunterPts = options.getInteger("hunter-results");
-            const survTag = options.getUser("surv-team");
+            const survTag = options.getRole("surv-team");
             const survPts = options.getInteger("surv-results");
 
             if (hunterTag.id === survTag.id) {
-                await interaction.reply({ content: `You have chosen the same user for the hunter and surv team.`, ephemeral: true });
+                await interaction.reply({ content: `You have chosen the same role for the hunter and surv team.`, ephemeral: true });
                 return;
             };
 
@@ -116,7 +116,7 @@ module.exports = {
 
             console.log(`${interaction.user.username} used results`);
 
-            await interaction.reply({ allowedMentions: { users : [hunterTag.id, survTag.id] }, content: `${hunterTag}${survTag} Please check the results and follow instructions below.`, embeds: [embed] });
+            await interaction.reply({ allowedMentions: { roles : [hunterTag.id, survTag.id] }, content: `${hunterTag}${survTag} Please check the results and follow instructions below.`, embeds: [embed] });
             return;
             
         } catch (err) {

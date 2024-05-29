@@ -25,12 +25,30 @@ module.exports = {
         try {
 
             // check if user is not admin 
-            if (!interaction.member.permissions.has(PermissionFlagsBits.Administrator)) {
-                // check if its a admin role. if yes, dont change
-                if (rolegiven.permissions.has(PermissionFlagsBits.Administrator)) {
-                    await interaction.reply({ content: `Please do not change the colour of an Admin Role, thank you!`, ephemeral: true });
-                    return;
-                };
+            // if (!interaction.member.permissions.has(PermissionFlagsBits.Administrator)) {
+            //     // check if its a admin role. if yes, dont change
+            //     if (rolegiven.permissions.has(PermissionFlagsBits.Administrator)) {
+            //         await interaction.reply({ content: `Please do not change the colour of an Admin Role, thank you!`, ephemeral: true });
+            //         return;
+            //     };
+            // };
+
+            //check if bot has permission to add the role 
+            
+            //get position of bot role 
+            const rolesAll = []; //list of all roles in the guild
+            await interaction.guild.roles.cache.forEach(role => rolesAll.push(role));
+
+            const allBotRoles = rolesAll.filter(role => role.tags);
+            const botRole = allBotRoles.filter(role => role.tags.botId === "1164417246643367968");
+            const positionBotRole = botRole[0].position;
+
+            //get position of role to add
+            const rolePosition = rolegiven.position;
+
+            if (rolePosition >= positionBotRole || rolegiven.tags) {
+                await interaction.reply({ content: `I do not have the permission to change colour of this role.`, ephemeral: true });
+                return;
             };
 
             // console.log(rolegiven.permissions.has(PermissionFlagsBits.Administrator));
@@ -50,9 +68,14 @@ module.exports = {
             };
 
             console.log(`${interaction.user.username} used set-role-colour`);
+
+            const embed = new EmbedBuilder()
+            .setColor(newcolour)
+            .setDescription(`I have changed the colour of ${rolegiven} from hexcode: ${oldcolour} to hexcode: ${newcolour}.`)
+            .setFooter({ text: `If this change was by accident, please change the role back to its original colour. Thank you!` })
             
             await rolegiven.setColor(hexcode);
-            await interaction.reply( { content: `I have changed the colour of ${rolegiven} from hexcode: ${oldcolour} to hexcode: ${newcolour}.\n*If this change was by accident, please change the role back to its original colour. Thank you!*` });
+            await interaction.reply( { embeds: [embed] });
             return;
 
         } catch (err) {
