@@ -169,7 +169,7 @@ client.on("messageCreate", async (message) => {
         //
         if(message.content.includes(botUserId)){
             message.react("<:yes:1168081212175286342>");
-            message.reply("I've got you!");
+            message.reply("I've got you, bby!");
 
             //create an embed 
             const embed = new EmbedBuilder()
