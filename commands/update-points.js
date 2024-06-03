@@ -90,8 +90,12 @@ module.exports = {
             };
 
             console.log(update);
+
+            const embed = new EmbedBuilder()
+            .setColor("#8E7AF0")
+            .setDescription(`Percentage of bets for winning team: ${inlineCode((winbets/(winbets + losebets)*100).toFixed(1))}%\nBetting points earned for winning: ${inlineCode(winpoints)}`)
             
-            await interaction.editReply(`I have updated the betting points for Match ${matchNumber}.`);
+            await interaction.editReply({ content: `I have updated the betting points for Match ${matchNumber}<:NestleLemonTeaSprite:1245293699672444959>`, embeds: [embed] });
             return;
 
         } catch (err) {

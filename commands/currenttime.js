@@ -9,14 +9,14 @@ module.exports = {
         .addStringOption(option => option.setName("country")
             .setDescription("Choose the country you are from")
             .addChoices(
-                { name: "Singapore", value: "eight" },
-                { name: "Philippines", value: "eight1" },
-                { name: "Thailand", value: "seven" },
-                { name: "Malaysia", value: "eight2" },
-                { name: "Vietnam", value: "seven1" },
-                { name: "Indonesia (Western)", value: "seven2" },
-                { name: "Indonesia (Central)", value: "eight3" },
-                { name: "Indonesia (Eastern)", value: "nine" },
+                { name: "Singapore", value: "Singapore" },
+                { name: "Philippines", value: "The Philippines" },
+                { name: "Thailand", value: "Thailand" },
+                { name: "Malaysia", value: "Malaysia" },
+                { name: "Vietnam", value: "Vietnam" },
+                { name: "Indonesia (Western)", value: "Indonesia (Western)" },
+                { name: "Indonesia (Central)", value: "Indonesia (Central)" },
+                { name: "Indonesia (Eastern)", value: "Indonesia (Eastern)" },
             )
             .setRequired(true)
         ),
@@ -28,7 +28,7 @@ module.exports = {
         const countryName = options.getString("country");
 
         try {
-            if (countryName === "seven" || countryName === "seven1" || countryName === "seven2") {
+            if (countryName === "Thailand" || countryName === "Indonesia (Western)" || countryName === "Vietnam") {
 
                 //get viet time from online
                 const timeSeven = ["-"];
@@ -61,11 +61,11 @@ module.exports = {
                     console.log(err);
                 });
 
-                await interaction.reply(`${interaction.user}'s time is ${timeSeven.slice(-1)} (GMT+7).`);
+                await interaction.reply(`It is ${timeSeven.slice(-1)} (GMT+7) in ${countryName}.`);
                 return;
             };
 
-            if (countryName === "nine") {
+            if (countryName === "Indonesia (Eastern)") {
 
                 //get viet time from online
                 const timeNine = ["-"];
@@ -98,7 +98,7 @@ module.exports = {
                     console.log(err);
                 });
 
-                await interaction.reply(`${interaction.user}'s time is ${timeNine.slice(-1)} (GMT+9).`);
+                await interaction.reply(`It is ${timeNine.slice(-1)} (GMT+9) in ${countryName}.`);
                 return;
             };
 
@@ -133,7 +133,7 @@ module.exports = {
                 console.log(err);
             });
 
-            await interaction.reply(`${interaction.user}'s time is ${timeEight.slice(-1)} (GMT+8).`)
+            await interaction.reply(`It is ${timeEight.slice(-1)} (GMT+8) in ${countryName}.`)
             return;
 
         } catch (err) {
