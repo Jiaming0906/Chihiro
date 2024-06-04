@@ -58,7 +58,13 @@ module.exports = {
                 };
             };
 
-            const winpoints = Math.round((winbets + losebets)*100/(winbets));
+            var winpoints;
+
+            if (winbets === 0) {
+                winpoints = Math.round((winbets + losebets)*100);
+            } else {
+                winpoints = Math.round((winbets + losebets)*100/(winbets));
+            };
 
             //loop through allusers and change points according to allUsers[i].games[matchNumber-1] equals 1/2
             for (let i = 0; i < allUsers.length; i++) {

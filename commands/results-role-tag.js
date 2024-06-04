@@ -65,13 +65,22 @@ module.exports = {
             const round = options.getString("round");
             const half = options.getString("half");
             const hunterTag = options.getRole("hunter-team");
-            const hunterPts = options.getInteger("hunter-results");
+            var hunterPts = options.getInteger("hunter-results").toString();
             const survTag = options.getRole("surv-team");
-            const survPts = options.getInteger("surv-results");
+            var survPts = options.getInteger("surv-results").toString();
 
             if (hunterTag.id === survTag.id) {
                 await interaction.reply({ content: `You have chosen the same role for the hunter and surv team.`, ephemeral: true });
                 return;
+            };
+
+            //add emoji if hunterPts/survPts === 5
+            if (hunterPts === "5") {
+                hunterPts += " <:cheers:1245296713137131562>";
+            };
+
+            if (survPts === "5") {
+               survPts += " <:cheers:1245296713137131562>"
             };
 
             //colour of embed 
