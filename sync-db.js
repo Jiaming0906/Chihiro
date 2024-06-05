@@ -10,7 +10,7 @@
 
 //
 
-const BetUsers = require("./models/bet-users.js");
-//one dot to represent the same directory as sync-db.js
+// const BetUsers = require("./models/bet-users.js");
+// //one dot to represent the same directory as sync-db.js
 
-BetUsers.sync({ force: true });
+// BetUsers.sync({ force: true });

@@ -25,6 +25,12 @@ module.exports = {
         
         try {
 
+            //check id of person using this command
+            if (interaction.user.id !== "697822391971086406" && interaction.user.id !== "800331193882509333") {
+                await interaction.reply({ content: `Please do not use this command bby` });
+                return;
+            };
+
             const { options } = interaction;
             const matchNumber = options.getInteger("match-number");
             const team1 = options.getRole("team1");
@@ -64,7 +70,13 @@ module.exports = {
 
             const actionRow = new ActionRowBuilder().setComponents(selectMenu);
 
-            const reply = await interaction.reply({ content: `**Match ${matchNumber}**\n${team1} vs ${team2}<:NestleLemonTeaSprite:1245293699672444959>\nPlease choose a team to make a bet of 100 betting points.\n\nInstructions:\n1. Joining in your first bet will grant you 1000 betting points.<:happy:1245302354484400188>\n2. Winning this bet will give you ${inlineCode(`(total number of bets placed × 100)/(total number of winning bets)`)} betting points.\n3. Betting is *irreversible*!<:no:1245302356778684466> However, you can change your decision between the two teams as many times as you wish while this message is present.<:cheers:1245296713137131562>\n4. This bet is totally anonymous. Your bet is only visible to yourself.<:good:1245296709685350430>\n5. Betting leaderboards will be sent at the end of each match day.<:support:1245296715205185607>`, 
+            const instructions = `Instructions:\n1. Joining in your first bet will grant you 1000 betting points<:happy:1245302354484400188>\n2. Winning this bet will give you ${inlineCode(`(total number of bets placed × 100)/(total number of winning bets)`)} betting points.\n3. Betting is *irreversible*!<:no:1245302356778684466> However, you can change your decision between the two teams as many times as you wish while this message is present<:cheers:1245296713137131562>\n4. This bet is totally anonymous. Your bet is only visible to yourself<:good:1245296709685350430>\n5. Betting leaderboards and statistics will be sent at the end of each match day<:support:1245296715205185607>`
+
+            const embed = new EmbedBuilder()
+            .setColor(team1.color)
+            .setDescription(instructions)
+
+            const reply = await interaction.reply({ content: `**Match ${matchNumber}**\n${team1} vs ${team2}<:NestleLemonTeaSprite:1245293699672444959>\nPlease choose a team to make a bet of 100 betting points.`, embeds: [ embed ],
             components: [actionRow] });
 
             const collector = reply.createMessageComponentCollector({
