@@ -3,7 +3,7 @@ const { StringSelectMenuBuilder, StringSelectMenuOptionBuilder,
 
 const { SlashCommandBuilder, EmbedBuilder, ChannelType, inlineCode, PermissionFlagsBits } = require("discord.js");
 
-const BetUsers = require("../models/bet-users.js");
+const NewBetUsers = require("../models/bet-users2.js");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -94,11 +94,17 @@ module.exports = {
                 //add selection to db
                 
                 //check if id is already present in db
-                const test = await BetUsers.findByPk(interaction.user.id);
+                const test = await NewBetUsers.findByPk(interaction.user.id);
                 var newString = "";
 
                 // console.log(interaction.values[0]);
                 // console.log(interaction.values);
+
+                //get name of user
+                var userName = interaction.member.nickname;
+                if (!userName) {
+                    userName = interaction.user.displayName;
+                };
 
                 if (test) {
                     //update the db
@@ -108,6 +114,7 @@ module.exports = {
                     // console.log(newString.length);
                     
                     test.games = newString;
+                    test.name = userName;
                     await test.save();
 
                     await interaction.reply({ content: `You have betted for option ${interaction.values[0]}.`, ephemeral: true });
@@ -121,7 +128,7 @@ module.exports = {
                     // console.log(newString);
                     // console.log(newString.length);
                     
-                    await BetUsers.create({ id: `${interaction.user.id}`, games: `${newString}`});
+                    await NewBetUsers.create({ id: `${interaction.user.id}`, name: `${userName}`, games: `${newString}`});
 
                     await interaction.reply({ content: `You have betted for option ${interaction.values[0]}.`, ephemeral: true });
                     return;

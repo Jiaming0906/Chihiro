@@ -1,6 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder, ChannelType, inlineCode, PermissionFlagsBits } = require("discord.js");
 
-const BetUsers = require("../models/bet-users.js");
+const NewBetUsers = require("../models/bet-users2.js");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -21,8 +21,8 @@ module.exports = {
             var sortedUsers; //sorted according to points, largest to smallest
             var ptsonly;
 
-            sortedUsers = await BetUsers.findAll({
-                attributes: [ 'id', 'points' ],
+            sortedUsers = await NewBetUsers.findAll({
+                attributes: [ 'id', 'name', 'points' ],
                 order: [
                     [ 'points', 'DESC' ],
                 ],
@@ -58,15 +58,32 @@ module.exports = {
                 //if points === 1st place points
                 if (top2pts.length >= 1 && sortedUsers[i].points === top2pts[0]) {
                     try {
-                        //in case member left
-                        await interaction.guild.members.fetch(sortedUsers[i].id);
-                        var u = await interaction.guild.members.cache.get(sortedUsers[i].id);
+                        //get name
+                        var userName = sortedUsers[i].name;
 
-                        if (u.nickname){
-                            //if nickname is present
-                            firstplaceusers.push(u.nickname);
+                        if (!userName) {
+                            //if name is null
+                            await interaction.guild.members.fetch(sortedUsers[i].id);
+                            var u = await interaction.guild.members.cache.get(sortedUsers[i].id);
+
+                            if (u.nickname){
+                                //if nickname is present
+                                userName = u.nickname;
+                                firstplaceusers.push(u.nickname);
+                            } else {
+                                userName = u.user.globalName;
+                                firstplaceusers.push(u.user.globalName);
+                            };
+
+                            //store to db
+                            const test = await NewBetUsers.findByPk(sortedUsers[i].id);
+                            test.name = userName;
+                            await test.save();
+
                         } else {
-                            firstplaceusers.push(u.user.globalName);
+                            //userName is present
+                            firstplaceusers.push(userName);
+
                         };
                         
                     } catch (err) {
@@ -77,14 +94,32 @@ module.exports = {
                 };
                 if (top2pts.length >= 2 && sortedUsers[i].points === top2pts[1]) {
                     try {
-                        //in case member left
-                        await interaction.guild.members.fetch(sortedUsers[i].id);
-                        var u = await interaction.guild.members.cache.get(sortedUsers[i].id);
-                       
-                        if (u.nickname) {
-                            secondplaceusers.push(u.nickname);
+                        //get name
+                        var userName = sortedUsers[i].name;
+
+                        if (!userName) {
+                            //if name is null
+                            await interaction.guild.members.fetch(sortedUsers[i].id);
+                            var u = await interaction.guild.members.cache.get(sortedUsers[i].id);
+
+                            if (u.nickname){
+                                //if nickname is present
+                                userName = u.nickname;
+                                secondplaceusers.push(u.nickname);
+                            } else {
+                                userName = u.user.globalName;
+                                secondplaceusers.push(u.user.globalName);
+                            };
+
+                            //store to db
+                            const test = await NewBetUsers.findByPk(sortedUsers[i].id);
+                            test.name = userName;
+                            await test.save();
+
                         } else {
-                            secondplaceusers.push(u.user.globalName);
+                            //userName is present
+                            secondplaceusers.push(userName);
+
                         };
 
                     } catch (err) {

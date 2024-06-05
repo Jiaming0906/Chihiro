@@ -14,3 +14,8 @@
 // //one dot to represent the same directory as sync-db.js
 
 // BetUsers.sync({ force: true });
+
+// const NewBetUsers = require("./models/bet-users2.js");
+// //one dot to represent the same directory as sync-db.js
+
+// NewBetUsers.sync({ force: true });

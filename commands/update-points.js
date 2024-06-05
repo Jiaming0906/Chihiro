@@ -1,6 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder, ChannelType, inlineCode, PermissionFlagsBits } = require("discord.js");
 
-const BetUsers = require("../models/bet-users.js");
+const NewBetUsers = require("../models/bet-users2.js");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -35,7 +35,7 @@ module.exports = {
 
             await interaction.deferReply();
 
-            const allUsers = await BetUsers.findAll();
+            const allUsers = await NewBetUsers.findAll();
             const update = [`match ${matchNumber}`];
 
             //how many user wins and how many losses
@@ -75,7 +75,7 @@ module.exports = {
                 };
 
                 if (u.games[matchNumber-1] === "1" && teamwins === "1") {
-                    update.push(`${u.id} + ${winpoints}`);
+                    update.push(`${u.name} + ${winpoints}`);
                     //update allUsers
                     u.points += winpoints;
                     await u.save();
@@ -83,14 +83,14 @@ module.exports = {
                 };
 
                 if (u.games[matchNumber-1] === "2" && teamwins === "2") {
-                    update.push(`${u.id} + ${winpoints}`);
+                    update.push(`${u.name} + ${winpoints}`);
                     //update allUsers
                     u.points += winpoints;
                     await u.save();
                     continue;
                 };
 
-                update.push(`${u.id} - 100`);
+                update.push(`${u.name} - 100`);
                 u.points -= 100;
                 await u.save();
             };
