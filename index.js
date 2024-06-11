@@ -28,7 +28,6 @@ const client = new Client({
         GatewayIntentBits.GuildVoiceStates,
         GatewayIntentBits.DirectMessages,
         GatewayIntentBits.GuildMessageReactions,
-        GatewayIntentBits.GuildMessagePolls,
     ],
     partials: [
         Partials.Channel,
@@ -328,6 +327,8 @@ const rolesObj = {"🥶": "1164885298715578398", "😵‍💫": "116488537316447
 //         }
 //     };
 // });
+
+//poll
 
 // log bot onto discord
 

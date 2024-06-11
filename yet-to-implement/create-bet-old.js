@@ -42,28 +42,16 @@ module.exports = {
             //create the labels 
             const roleLabels = [
                 {
-                    label: `${team1.name} (Bet 100)`,
-                    description: `Bet 100 for ${team1.name}`,
+                    label: `${team1.name}`,
+                    description: `Bet for ${team1.name}`,
                     value: `1`,
                     emoji: `<:idv1:1244224588531892314>`,
                 },
                 {
-                    label: `${team1.name} (ALL IN)`,
-                    description: `Bet all in for ${team1.name}`,
-                    value: `3`,
-                    emoji: `<:forwardscream:1249967337503854592>`,
-                },
-                {
-                    label: `${team2.name} (Bet 100)`,
-                    description: `Bet 100 for ${team2.name}`,
+                    label: `${team2.name}`,
+                    description: `Bet for ${team2.name}`,
                     value: `2`,
                     emoji: `<:idv2:1244225087398215731>`,
-                },
-                {
-                    label: `${team2.name} (ALL IN)`,
-                    description: `Bet all in for ${team2.name}`,
-                    value: `4`,
-                    emoji: `<:priestesscocktail:1249967334475563108>`,
                 },
             ];
 
@@ -85,13 +73,13 @@ module.exports = {
 
             const actionRow = new ActionRowBuilder().setComponents(selectMenu);
 
-            const instructions = `Instructions:\n1. Joining in your first bet will grant you 1000 betting points<:happy:1245302354484400188>\n2. Please refer to the betting statistics from ${inlineCode(`/update-points`)} to see how wins are calculated.\n3. Betting is *irreversible*!<:no:1245302356778684466> However, you can change your decision between the two teams as many times as you wish while this message is present<:cheers:1245296713137131562>\n4. This bet is totally anonymous. Your bet is only visible to yourself<:good:1245296709685350430>\n5. Betting leaderboards and statistics will be sent at the end of each match day<:support:1245296715205185607>`
+            const instructions = `Instructions:\n1. Joining in your first bet will grant you 1000 betting points<:happy:1245302354484400188>\n2. Winning this bet will give you ${inlineCode(`(total number of bets placed × 100)/(total number of winning bets)`)} betting points.\n3. Betting is *irreversible*!<:no:1245302356778684466> However, you can change your decision between the two teams as many times as you wish while this message is present<:cheers:1245296713137131562>\n4. This bet is totally anonymous. Your bet is only visible to yourself<:good:1245296709685350430>\n5. Betting leaderboards and statistics will be sent at the end of each match day<:support:1245296715205185607>`
 
             const embed = new EmbedBuilder()
             .setColor(team1.color)
             .setDescription(instructions)
 
-            const reply = await interaction.editReply({ content: `**Match ${matchNumber}**\n${team1} vs ${team2}<:NestleLemonTeaSprite:1245293699672444959>\nPlease choose a team to make a bet.`, embeds: [ embed ],
+            const reply = await interaction.editReply({ content: `**Match ${matchNumber}**\n${team1} vs ${team2}<:NestleLemonTeaSprite:1245293699672444959>\nPlease choose a team to make a bet of 100 betting points.`, embeds: [ embed ],
             components: [actionRow] });
 
             //start collector
@@ -128,8 +116,6 @@ module.exports = {
                     userName = interaction.user.displayName;
                 };
 
-                //check if id is already present in db
-
                 if (test) {
 
                     //console.log("present");
@@ -144,6 +130,9 @@ module.exports = {
                     test.name = userName;
                     await test.save();
 
+                    await interaction.editReply({ content: `You have betted for option ${interaction.values[0]}.`, ephemeral: true });
+                    return;
+
                 } else {
 
                     //console.log("not present");
@@ -157,18 +146,10 @@ module.exports = {
                     // console.log(newString.length);
                     
                     await NewBetUsers.create({ id: `${interaction.user.id}`, name: `${userName}`, games: `${newString}`});
-                };
 
-                //interaction reply
-                //1 = bet 100 for option 1; 3 = bet all in for option 1; 2 = bet 100 for option 2; 4 = bet all in for option 2
-
-                if (interaction.values[0] === `1` || interaction.values[0] === `2`) {
-                    await interaction.editReply({ content: `You have betted 100 betting points.`, ephemeral: true });
+                    await interaction.editReply({ content: `You have betted for option ${interaction.values[0]}.`, ephemeral: true });
                     return;
-                }
-
-                await interaction.editReply({ content: `You have betted all in.`, ephemeral: true });
-                return;
+                };
                 
             });
 
