@@ -134,6 +134,12 @@ module.exports = {
 
                     //console.log("present");
 
+                    //if test.points === 0 then dont allow bets
+                    if (test.points <= 0) {
+                        await interaction.editReply({ content: `You have 0 or less than 0 betting points.`, ephemeral: true });
+                        return;
+                    };
+
                     //update the db
                     newString = test.games.slice(0, matchNumber-1) + interaction.values[0] + test.games.slice(matchNumber);
 

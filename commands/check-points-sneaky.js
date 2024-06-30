@@ -4,20 +4,27 @@ const NewBetUsers = require("../models/bet-users2.js");
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName("check-points")
-        .setDescription("Check your current betting points"),
+        .setName("check-points-sneaky")
+        .setDescription("Check your current betting points")
+        .addStringOption(option => option.setName("id")
+            .setDescription("ID")
+            .setRequired(true)),
 
     async execute(interaction) {
         
         try {
 
-            //check points based on id 
-            await interaction.deferReply({ ephemeral: true });
+            const { options } = interaction;
+            const id = options.getString("id");
 
-            const test = await NewBetUsers.findByPk(interaction.user.id);
+            //check points based on id 
+            await interaction.deferReply();
+
+            const test = await NewBetUsers.findByPk(id);
 
             if (!test) {
-                await interaction.editReply({ content: `You did not place a bet bby＞︿＜`, ephemeral: true });
+                await interaction.editReply({ content: `This person did not place a bet bby＞︿＜`});
+                return;
             };
 
             const allpoints = await NewBetUsers.findAll({

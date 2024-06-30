@@ -32,10 +32,10 @@ module.exports = {
             ptsonly = sortedUsers.map((user) => user.points);//contains duplicates
 
             //get top2pts
-            var top2pts = [];//changed to length === 3 to get top 3 points
+            var top2pts = [];//changed to length === 5 to get top 5 points
 
             for (let i = 0; i < ptsonly.length; i++) {
-                if (top2pts.length == 3) {
+                if (top2pts.length == 5) {
                     break;
                 };
                 if (top2pts.includes(ptsonly[i])) {
@@ -54,6 +54,8 @@ module.exports = {
             var secondplaceusers = [];
             var firstplaceusers = [];
             var thirdplaceusers = [];
+            var fourthplaceusers = [];
+            var fifthplaceusers = [];
 
             for (i = 0; i < sortedUsers.length; i++) {
 
@@ -173,6 +175,82 @@ module.exports = {
                     };
                 };
 
+                //fourthplaceusers
+
+                if (top2pts.length >= 4 && sortedUsers[i].points === top2pts[3]) {
+                    try {
+                        //get name
+                        var userName = sortedUsers[i].name;
+
+                        if (!userName) {
+                            //if name is null
+                            await interaction.guild.members.fetch(sortedUsers[i].id);
+                            var u = await interaction.guild.members.cache.get(sortedUsers[i].id);
+
+                            if (u.nickname){
+                                //if nickname is present
+                                userName = u.nickname;
+                                fourthplaceusers.push(u.nickname);
+                            } else {
+                                userName = u.user.displayName;
+                                fourthplaceusers.push(u.user.displayName);
+                            };
+
+                            //store to db
+                            const test = await NewBetUsers.findByPk(sortedUsers[i].id);
+                            test.name = userName;
+                            await test.save();
+
+                        } else {
+                            //userName is present
+                            fourthplaceusers.push(userName);
+
+                        };                   
+
+                    } catch (err) {
+                        fourthplaceusers.push(`*member-left*`);
+                        continue;
+                    };
+                };
+
+                //fifthplaceusers
+
+                if (top2pts.length >= 5 && sortedUsers[i].points === top2pts[4]) {
+                    try {
+                        //get name
+                        var userName = sortedUsers[i].name;
+
+                        if (!userName) {
+                            //if name is null
+                            await interaction.guild.members.fetch(sortedUsers[i].id);
+                            var u = await interaction.guild.members.cache.get(sortedUsers[i].id);
+
+                            if (u.nickname){
+                                //if nickname is present
+                                userName = u.nickname;
+                                fifthplaceusers.push(u.nickname);
+                            } else {
+                                userName = u.user.displayName;
+                                fifthplaceusers.push(u.user.displayName);
+                            };
+
+                            //store to db
+                            const test = await NewBetUsers.findByPk(sortedUsers[i].id);
+                            test.name = userName;
+                            await test.save();
+
+                        } else {
+                            //userName is present
+                            fifthplaceusers.push(userName);
+
+                        };                   
+
+                    } catch (err) {
+                        fifthplaceusers.push(`*member-left*`);
+                        continue;
+                    };
+                };
+
                 if (sortedUsers[i].points < Math.min(top2pts)) {
                     break;
                 };
@@ -181,7 +259,7 @@ module.exports = {
             const embed = new EmbedBuilder()
             .setColor("#ffd6e5")
             .setTitle(`Betting Leaderboards`)
-            .setDescription(`\n**${top2pts[0]} points**${"<:support:1245296715205185607>"}\n${firstplaceusers.join("\n")}\n\n**${top2pts[1]} points**${"<:good:1245296709685350430>"}\n${secondplaceusers.join("\n")}\n\n**${top2pts[2]} points**${"<:happy:1245302354484400188>"}\n${thirdplaceusers.join("\n")}`)
+            .setDescription(`\n**${top2pts[0]} points**${"<:support:1245296715205185607>"}\n${firstplaceusers.join("\n")}\n\n**${top2pts[1]} points**${"<:good:1245296709685350430>"}\n${secondplaceusers.join("\n")}\n\n**${top2pts[2]} points**${"<:happy:1245302354484400188>"}\n${thirdplaceusers.join("\n")}\n\n**${top2pts[3]} points**${"<:embrace:1167328189362741358>"}\n${fourthplaceusers.join("\n")}\n\n**${top2pts[4]} points**${"<:cheers:1245296713137131562>"}\n${fifthplaceusers.join("\n")}`)
             .setFooter({ text: `Members who are on the leaderboards but left the server will be shown by "member-left".` })
 
             await interaction.editReply({ content: `${"Here you go!<:NestleLemonTeaSprite:1245293699672444959>"}`, embeds: [embed], ephemeral: true });

@@ -1,6 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder, ChannelType, inlineCode, PermissionFlagsBits } = require("discord.js");
 
-const NewBetUsers = require("../models/bet-users.js");
+const NewBetUsers = require("../models/bet-users2.js");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -51,20 +51,33 @@ module.exports = {
             for (let i = 0; i < allUsers.length; i++) {
                 let a = allUsers[i];
                 if (a.games[matchNumber-1] === "1" && teamwins === "1" || a.games[matchNumber-1] === "3" && teamwins === "1") {
-                    winbets += 1;
-                    winnerBets.push(a);
+                    if (a.points > 0) {
+                        //
+                        winbets += 1;
+                        winnerBets.push(a);
+                    };
                 };
+
                 if (a.games[matchNumber-1] === "2" && teamwins === "2" || a.games[matchNumber-1] === "4" && teamwins === "2") {
-                    winbets += 1;
-                    winnerBets.push(a);
+                    if (a.points > 0) {
+                        //
+                        winbets += 1;
+                        winnerBets.push(a);
+                    };
                 };
+
                 if (a.games[matchNumber-1] === "1" && teamwins === "2" || a.games[matchNumber-1] === "3" && teamwins === "2") {
-                    losebets += 1;
-                    loserBets.push(a);
+                    if (a.points > 0) {
+                        losebets += 1;
+                        loserBets.push(a);
+                    };
                 };
+
                 if (a.games[matchNumber-1] === "2" && teamwins === "1" || a.games[matchNumber-1] === "4" && teamwins === "1") {
-                    losebets += 1;
-                    loserBets.push(a);
+                    if (a.points > 0) {
+                        losebets += 1;
+                        loserBets.push(a);
+                    };
                 };
             };
 
@@ -121,47 +134,63 @@ module.exports = {
             //loop through winnerBets to update points 
             for (let i = 0; i < winnerBets.length; i++) {
                 var u = winnerBets[i];
-                
-                if (u.games[matchNumber-1] === "3" || u.games[matchNumber-1] === "4") {
-                    //if all in
-                    var won = Math.round((sum/sumRatio) * (u.points/min));
-                    update.push(`${u.name} = ${won} (All in)`);
-                    u.points = won;
+
+                //make sure u.pointss !== 0
+
+                if (u.points > 0) {
+                    //
+                    if (u.games[matchNumber-1] === "3" || u.games[matchNumber-1] === "4") {
+                        //if all in
+                        var won = Math.round((sum/sumRatio) * (u.points/min));
+                        update.push(`${u.name} = ${won} (All in)`);
+                        u.points = won;
+                        await u.save();
+                        continue;
+                    };
+    
+                    var won = Math.round((sum/sumRatio) * (100/min));
+                    update.push(`${u.name} + ${won - 100}`)
+                    u.points += (won - 100);
                     await u.save();
                     continue;
-                };
-
-                var won = Math.round((sum/sumRatio) * (100/min));
-                update.push(`${u.name} + ${won - 100}`)
-                u.points += (won - 100);
-                await u.save();
-                continue;
+                };                
             };
 
             //loop through loserBets to update points 
             for (let i = 0; i < loserBets.length; i++) {
                 var u = loserBets[i];
 
-                if (u.games[matchNumber-1] === "3" || u.games[matchNumber-1] === "4") {
-                    //if all in
+                //make sure u.pointss !== 0
 
-                    update.push(`${u.name} = 0 (All in)`);
-                    u.points = 0;
+                if (u.points > 0) {
+                    //
+                    if (u.games[matchNumber-1] === "3" || u.games[matchNumber-1] === "4") {
+                        //if all in
+    
+                        update.push(`${u.name} = 0 (All in)`);
+                        u.points = 0;
+                        await u.save();
+                        continue;
+                    };
+                    if (u.points < 100) {
+                        update.push(`${u.name} - 100 = 0`);
+                        u.points = 0;
+                        await u.save();
+                        continue;
+                    };
+                    update.push(`${u.name} - 100`);
+                    u.points -= 100;
                     await u.save();
                     continue;
                 };
-
-                update.push(`${u.name} - 100`)
-                u.points -= 100;
-                await u.save();
-                continue;
             };
             
             console.log(update);
 
             const embed = new EmbedBuilder()
             .setColor("#8E7AF0")
-            .setDescription(`__Overall__\nPercentage of bets for winning team = ${inlineCode((winbets/(winbets + losebets)*100).toFixed(1))}%\n\n__Statistics for Winning Bets__\nMinimum betting points placed = ${inlineCode(`${min}`)}\nBetting points earned for betting ${min} = ${inlineCode(`${(sum/sumRatio).toFixed(2)}`)}\nBetting points earned for betting *B* betting points where *B > ${min}* = ${inlineCode(`B/${min} × ${(sum/sumRatio).toFixed(2)}`)}`)
+            .setDescription(`__Overall__<:support:1245296715205185607>\nPercentage of bets for winning team = ${inlineCode((winbets/(winbets + losebets)*100).toFixed(1))}%\n\n__Statistics for Winning Bets__<:happy:1245302354484400188>\nMinimum betting points placed = ${inlineCode(`${min}`)}\nBetting points earned for betting ${min} betting points = ${inlineCode(`${(sum/sumRatio).toFixed(2)}`)}\nBetting points earned for betting *B* betting points where *B > ${min}* = (${inlineCode(`B/${min})×${(sum/sumRatio).toFixed(2)}`)}`)
+            .setFooter({ text: `Betting points will be rounded to the nearest whole number. Please use /check-points to check your current betting points.` })
             
             await interaction.editReply({ content: `I have updated the betting points for Match ${matchNumber}<:NestleLemonTeaSprite:1245293699672444959>`, embeds: [embed] });
             return;
